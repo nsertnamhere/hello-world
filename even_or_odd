@@ -1,0 +1,24 @@
+/* PROGRAM:EVEN_OR_ODD
+By Nsertnamhere 2019
+This program does...
+*/
+
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int number;
+	
+	cout<<"Enter a number and I will tell you if it''s even or odd: ";
+	cin>>number;
+	if(number%2==0)
+		cout<<"Even";
+	else
+		cout<<"Odd";
+	return 0;
+
+
+
+ }
