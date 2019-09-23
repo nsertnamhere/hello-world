@@ -1,0 +1,39 @@
+/* PROGRAM:NEST_TEST
+By Nate Townsell 2019
+This program displays a letter grade for the corresponding test score.
+*/
+
+#include<iostream>
+using namespace std;
+
+int main()
+{
+	int test_score,min_score=0,max_score=100;
+	
+	cout<<"Enter your test score: \n";
+	cin>>test_score;
+	
+	if(test_score>=min_score && test_score<=max_score)
+	{
+	if (test_score>=90)
+		cout<<"Congrats! You earned an A";
+	else if (test_score>=80)
+		cout<<"Good Job! You earned a B";
+	else if (test_score>=70)
+		cout<<"Great effort! You earned an C";
+	else if (test_score>=60)
+		cout<<"You earned an D";		
+	else if (test_score>=0)
+		cout<<"Mission Failed. You earned a F";
+	}
+	else
+	{
+		cout<<"That is an invalid score. Please run program again and enter a value in the range of "
+		<<min_score<<" through "<<max_score<<endl;
+	}
+						
+	return 0;
+
+
+
+ }
