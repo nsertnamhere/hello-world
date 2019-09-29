@@ -1,0 +1,32 @@
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+
+using namespace std;
+
+int main()
+{
+	int score_1,score_2,score_3;
+	double ave;
+	char again;
+	
+	do
+	{
+		cout<<"Enter 3 scores:";
+		cin>>score_1>>score_2>>score_3;
+		
+		ave=(score_1+score_2+score_3)/3.0;
+		cout<<"The average is: "<<ave<<"\n";
+		
+		cout<<"Run program again? (Y/N)";
+		cin>>again;
+	} while (again=='Y'|| again == 'y');
+	
+	return 0;
+
+
+
+ }
