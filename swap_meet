@@ -1,0 +1,40 @@
+/* PROGRAM:SWAPMEET
+By Nate Townsell 2019
+This program prints a summary report of swap meet items provided in a file
+*/
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+using namespace std;
+
+int main()
+{
+	ifstream inputFile;
+	string items,filename;
+	
+	cout<<"Please enter the filename: ";
+	cin>>filename;
+	
+	inputFile.open("swap_meet_input.txt");
+	cout<<"Retrieving requested data...\n";
+	
+	if (inputFile)
+	{
+		while (inputFile >> items)
+		{
+		cout << items << endl;
+		}
+		inputFile.close();
+	}
+	else
+	{
+		cout << "This program has encountered an error wile retrieving requested data. Please try again.\n";
+	}
+	return 0;
+
+ }
