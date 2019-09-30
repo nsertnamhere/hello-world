@@ -40,7 +40,7 @@ int main()
     {
 	        for (int b = 1; b <= a; ++b)
 	        {
-	            outputfile << "* ";
+	            outputfile << "+ ";
 	        }
 	        outputfile << "\n";
 	    }
@@ -54,7 +54,7 @@ int main()
 	    {
 	        for(int b = 1; b <= a; ++b)
 	        {
-	            outputfile << "* ";
+	            outputfile << "+ ";
 	        }
 	        outputfile << endl;
 	    }
