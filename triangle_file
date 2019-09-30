@@ -1,0 +1,72 @@
+/* PROGRAM:PYRAMID
+By Nate Townsell 2019
+This program writes a right triangle to a file.
+*/
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+using namespace std;
+
+int main()
+{
+    int size;
+    char orient;
+   
+    cout << "Please enter pyramid size(2-80): ";
+    cin >> size;
+    cout << "Please enter pyramid orientation(a=ascending or d=descending): ";
+    cin >> orient;
+   
+    while (size < 2 || size > 80)
+    {
+    	cout << "Pyramid size must be between 2 and 80.\n";
+    	
+    	cout << "Please enter pyramid size(2-80): ";
+    	cin >> size;
+	}
+    
+    ofstream outputfile;
+    outputfile.open("triangle.txt");
+    
+    if(orient == 'a')
+    {
+	
+	for (int a = 1; a <= size; ++a)
+    {
+	        for (int b = 1; b <= a; ++b)
+	        {
+	            outputfile << "* ";
+	        }
+	        outputfile << "\n";
+	    }
+	    outputfile.close();
+	}
+	
+	
+	else if (orient == 'd')
+	{
+	    for(int a = size; a >= 1; --a)
+	    {
+	        for(int b = 1; b <= a; ++b)
+	        {
+	            outputfile << "* ";
+	        }
+	        outputfile << endl;
+	    }
+	    outputfile.close();
+	}
+	
+	
+	else 
+	{
+		cout<<"\nPlease run program again with a valid orientation";
+	}
+	
+	cout<<"Jobs done!";
+    return 0;
+}
