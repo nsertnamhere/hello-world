@@ -1,0 +1,123 @@
+/* PROGRAM:CRAPS
+By Nate Townsell 2019
+This program simulates 5000 games of Craps
+*/
+
+#include<iostream>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+
+using namespace std;
+
+// Function prototypes
+string getRollDescription(short, short);
+short rollDice(ofstream& );
+bool playGame(ofstream& );
+
+int main()
+{
+	ofstream outputFile;
+	outputFile.open("crapsdata.txt"); 
+	int games = 1;
+	long wins =0;
+	unsigned seed=(0);
+	srand(seed);
+	
+	while (games <= 5000)
+	{
+		if(playGame(outputFile))
+		{
+			wins++;
+		}
+		games++;
+	}
+	
+	double percent = (wins/5000.0)* 100;
+	cout<<setprecision(2)<<showpoint<<fixed;
+	cout<<"The winning percentage is: "<<percent<<endl;
+	outputFile.close();
+	
+}
+
+bool playGame(ofstream& out)
+{
+	short point;
+	int rollNumber;
+	out << "Roll #" << rollNumber << endl;
+	short total;
+	total = rollDice(out);
+		bool status;
+		
+	if (total == 7 || total == 11)
+	{
+		out << "\nWinner!" << endl << endl;
+		status = true;
+	}
+
+	else if (total == 2 || total == 3 || total == 12)
+	{
+		cout << "\nLoser!" << endl << endl;
+		status = false;
+	}
+	else
+	{
+		rollNumber++;
+		point = total;
+		out << "Roll # " <<rollNumber<< endl;
+		total = rollDice(out);
+	}
+	if (total == point)
+	{
+		out << "Player Wins!" << endl;
+		status = true;
+	}
+	if (total == 7)
+	{
+		out << "Player Lose!" << endl;
+		status = false;
+	}
+	
+	out << endl;
+		return status;
+				
+}
+
+short rollDice(ofstream& out)
+{
+	short die1,die2;
+	short point;
+	
+	die1 = rand() % 6 + 1;
+	die2 = rand() % 6 + 1;
+	
+	out << die1 <<" - "<< die2 << endl;
+	point = die1 + die2;
+	out << getRollDescription (die1, die2) <<endl;
+	return point;
+
+}
+
+
+string getRollDescription(short die1, short die2)
+{
+
+	if (die1 + die2 == 2) { cout << "Snake Eyes! " << endl; }
+	if (die1 + die2 == 3) { cout << "Ace Deuce! " << endl; }
+	if (die1 + die2 == 4) { cout << "Easy Four! " << endl; }
+	if (die1 + die2 == 6) { cout << "Easy Six! " << endl; }	
+	if (die1 + die2 == 8) { cout << "Easy Eight! " << endl; }
+	if (die1 + die2 == 10) {cout << "Easy Ten! " << endl; }
+	
+	
+	if (die1 == 2 & die2 == 2) { cout << "Hard 4! " << endl; }
+	if (die1 == 3 & die2 == 3) { cout << "Hard 6! " << endl; }
+	if (die1 == 4 & die2 == 4) { cout << "Hard 8! " << endl; }
+	if (die1 == 5 & die2 == 5) { cout << "Hard 10! "<< endl; }
+	if (die1 == 5 & die2 == 6) { cout << "Yo! "<< endl; }
+	if (die1 == 6 & die2 == 5) { cout << "Yo! "<< endl; }
+	if (die1 == 6 & die2 == 6) { cout << "Boxcars! "<< endl; }
+}
+
