@@ -1,0 +1,183 @@
+/* PROGRAM:GRADEBOOK
+By Nate Townsell 2019
+This program compiles student grades
+*/
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+using namespace std;
+
+static const int STUDENT_COUNT = 3;
+static const int ASSIGNMENT_COUNT = 5;
+
+bool isValid(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id = 1) //function validates provided info
+{
+   bool result = false;
+   for(int i=0;i<STUDENT_COUNT;i++)
+   {
+       for(int j=0;j<ASSIGNMENT_COUNT;j++)
+       {
+           if(my_grades[i][j]>=0 && my_grades[i][j]<101 && (id-1)>=0 && (id-1)<=3)
+       result = true;
+       }
+   }
+   return result;
+}
+void printGradeScores(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT]) //function prints student # and grades
+{   if(isValid(my_grades))
+   {
+           for(int i = 0;i<STUDENT_COUNT;i++)
+           {
+                   cout<<"Student #"<<i+1; 
+                   for(int j=0;j<ASSIGNMENT_COUNT;j++)
+                   {
+                           cout<<"\t"<<my_grades[i][j]; 
+               	   }
+                   cout<<"\n";
+           }
+	}
+else
+	{
+		cout<<"Error. Data is invalid!";
+    	exit;
+	}
+
+}
+
+void printGradeLetters(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT]) //function calculates grades
+{   if(isValid(my_grades))
+   {
+       for(int i = 0;i<STUDENT_COUNT;i++) 
+       {       char grade_temp;
+           cout<<"Student #"<<i+1;
+           for(int j=0;j<ASSIGNMENT_COUNT;j++) 
+           {   if (my_grades[i][j]>=90)
+               grade_temp = 'A';
+			else if (my_grades[i][j]>=80)
+               grade_temp = 'B';
+		    else if (my_grades[i][j]>=70)
+               grade_temp = 'C';
+		    else if (my_grades[i][j]>=60)
+               grade_temp = 'D';
+            else grade_temp = 'F';
+               cout<<"\t"<<grade_temp;
+           }
+           cout<<endl;
+       }
+   }
+else
+	{
+    	cout<<"Error. Data is invalid!";
+   		exit;
+	}  
+  
+}
+
+short getStudentTotalScores(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id) //function to get the total
+{
+   short total = 0;
+   for(int i=0;i<ASSIGNMENT_COUNT;i++) 
+   {
+       total += my_grades[id-1][i]; // used id-1 because arrays start from 0
+   }
+   return total;
+}
+
+float getStudentAverageScore(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id) //function to get the average
+{
+	short total = getStudentTotalScores(my_grades,id);
+    return (total/ASSIGNMENT_COUNT); 
+}
+
+char getStudentAverageLetter(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id)
+{
+   char grade;
+   float average = getStudentAverageScore(my_grades, 3.0); //gets the average from the function getStudentAverageScore
+   if (average>=90)
+   grade = 'A';
+   else if (average>=80)
+   grade = 'B';
+   else if (average>=70)
+   grade = 'C';
+   else if (average>=60)
+   grade = 'D';
+   else grade = 'F';
+   return grade;
+}
+
+int getAssignmentTotalScores(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id)
+{
+    short total=0;
+   for(int i=0;i<STUDENT_COUNT;i++) 
+   	{
+       total += my_grades[i][id-1]; 
+   	}
+   return total;
+}
+
+float getAssignmentAverageScore(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id)
+{
+   short total = getAssignmentTotalScores(my_grades,id);
+   return (total/STUDENT_COUNT); //returns the average score of assignment
+}
+
+short getAssignmentMaxScore(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id)
+{ 
+	if (isValid(my_grades,id))
+   	{
+		short max = my_grades[0][id-1]; //sets the first students grades as maximum
+        for(int i=0;i<STUDENT_COUNT;i++) 
+        {
+           if(max < my_grades[i][id-1]) //assigns the current students scores as max if its greater than max,
+    	   max = my_grades[i][id-1];
+   		}
+           return max; 
+   	}
+	else
+	{
+    	cout<<"Error. Data is invalid!";
+   		exit;
+	}
+}
+
+short getAssignmentMinScore(short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT],int id)
+{   
+	if (isValid(my_grades,id))
+    {
+        short min = my_grades[0][id-1]; //sets the first students grades as minimum
+        for(int i=0;i<STUDENT_COUNT;i++) 
+        {
+        	if(min > my_grades[i][id-1]) 
+            min = my_grades[i][id-1]; 
+   		}
+   	return min; 
+	}
+	else
+	{
+    	cout<<"Error. Data is invalid!";
+   		exit;
+	}
+
+}
+
+int main()
+{
+	short my_grades[STUDENT_COUNT][ASSIGNMENT_COUNT]=
+	{{74,59,91,11,94}, {48,67,4,68,92}, {92,71,83,80,100}};
+	printGradeScores(my_grades);
+	cout<<endl;
+	printGradeLetters(my_grades);
+	cout<<"\nStudent #3 Total: "<<getStudentTotalScores(my_grades, 3)<<endl;
+	cout<<"Student #3 Average: " <<getStudentAverageScore(my_grades, 3)<<endl;
+	cout<<"Student #3 Average Letter: " <<getStudentAverageLetter(my_grades, 3)<<endl;
+	cout<<"\nAssignment #1 Total: " <<getAssignmentTotalScores(my_grades, 1)<<endl;
+	cout<<"Assignment #1 Average: " <<getAssignmentAverageScore(my_grades, 1)<<endl;
+	cout<<"Assignment #1 Max: " <<getAssignmentMaxScore(my_grades, 1)<<endl;
+	cout<<"Assignment #1 Min: " <<getAssignmentMinScore(my_grades, 1)<<endl;
+	return 0;
+}
