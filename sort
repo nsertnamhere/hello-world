@@ -1,0 +1,108 @@
+
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+
+
+using namespace std;
+
+// to swap two values
+void swap(int *xp, int *yp)
+{
+	int temp = *xp;
+	*xp = *yp;
+	*yp = temp;
+}
+  
+// A function to implement bubble sort
+void bubbleSort(int arr[], int n)
+{
+	int i, j;
+	for (i = 0; i < n-1; i++)
+	  
+	// Last i elements are already in place
+	for (j = 0; j < n-i-1; j++)
+	if (arr[j] > arr[j+1])
+	swap(&arr[j], &arr[j+1]);
+}
+
+void selectionSort(int arr[], int n)
+{
+int i, j, min_idx;
+  
+	// One by one move boundary of unsorted subarray
+	for (i = 0; i < n-1; i++)
+	{
+		// Find the minimum element in unsorted array
+		min_idx = i;
+		for (j = i+1; j < n; j++)
+		if (arr[j] < arr[min_idx])
+		min_idx = j;
+		  
+		// Swap the found minimum element with the first element
+		swap(&arr[min_idx], &arr[i]);
+	}
+}
+
+// generate two arrays with random values
+void setRandomValues(int a[], int b[], int length)
+{
+	srand(time(0));
+	  
+	for(int i=0;i<length;i++)
+	{
+		//generate randm value from 1 to length
+		int x = rand()%length + 1;
+		a[i] = x;
+		b[i] = x;
+	}
+
+}
+
+// to compare time used by two different sorts
+void compareBubbleAndSelectionSort(int length)
+{
+	// output
+	cout<<"Comparing bubble and selection for a list of size "<<length<<endl;
+	  
+	int a[length], b[length];
+	  
+	//settting random values for both arrays
+	setRandomValues(a,b, length);
+	time_t curtime;
+	  
+	int t1, t2;
+	  
+	//storing time before sorting
+	t1 = time(0);
+	bubbleSort(a, length);
+	//storing time after sorting
+	t2 = time(0);
+	//output the time difference
+	cout<<"Bubble sort took "<<t2-t1<<" second(s)."<<endl;
+	  
+	//storing time before sorting
+	t1 = time(0);
+	selectionSort(b, length);
+	//storing time after sorting
+	t2 = time(0);
+	//output the time difference
+	cout<<"Selection sort took "<<t2-t1<<" second(s)."<<endl;
+}
+
+
+int main()
+{
+	cout<<endl;
+	compareBubbleAndSelectionSort(25000);
+	cout<<endl;
+	compareBubbleAndSelectionSort(50000);
+	cout<<endl;
+	compareBubbleAndSelectionSort(100000);
+	return(0);
+}
