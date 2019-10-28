@@ -1,0 +1,86 @@
+/* PROGRAM: NAME
+By Nate Townsell 2019
+This program does...
+*/
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+
+using namespace std;
+
+void compareBubbleAndSelectionSort(int length);
+
+int main()
+{
+	cout<<endl;
+	compareBubbleAndSelectionSort(25000);
+	cout<<endl;
+	compareBubbleAndSelectionSort(50000);
+	cout<<endl;
+	compareBubbleAndSelectionSort(100000);
+	return(0);
+}
+
+void setRandomValues(int n[], int t[], int length)
+{
+	srand(time(0));
+	for(int i=0;i<length;i++)
+	{
+		int x=rand()%length+1;
+		n[i]=x;
+		t[i]=x;
+	}
+
+}
+
+void swap(int *nt, int *sp)
+{
+	int temp=*nt;
+	*nt=*sp;
+	*sp=temp;
+}
+
+void bubbleSort(int sort[], int length)
+{
+	int i, j;
+	for (i=0; i<length-1; i++)
+	for (j=0; j<length-i-1; j++)
+	if (sort[j]>sort[j+1])
+	swap(&sort[j], &sort[j+1]);
+}
+  
+void selectionSort(int arr[], int n)
+{
+	int i, j, min_elemen;
+	for (i=0; i<n-1; i++)
+	{
+		min_elemen = i;
+		for (j=i+1; j<n; j++)
+		if (arr[j] < arr[min_elemen])
+		min_elemen = j;
+		swap(&arr[min_elemen], &arr[i]);
+	}
+}
+
+void compareBubbleAndSelectionSort(int length)
+{
+	cout<<"Comparing bubble and selection for a list of size "<<length<<endl;
+	  
+	int a[length], b[length];
+	setRandomValues(a,b, length);
+	time_t curtime;
+	int t1, t2;
+	t1 = time(0);
+	bubbleSort(a, length);
+	t2 = time(0);
+	cout<<"Bubble sort took "<<t2-t1<<" second(s)."<<endl;
+	t1 = time(0);
+	selectionSort(b, length);
+	t2 = time(0);
+	cout<<"Selection sort took "<<t2-t1<<" second(s)."<<endl;
+}
