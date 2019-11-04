@@ -1,0 +1,123 @@
+/* PROGRAM: DYNASCORES
+By Nate Townsell 2019
+This program reads test scores and dynamically allocates an array to hold the scores
+*/
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<fstream>    //for C++ file access
+
+using namespace std;
+
+void readData(int *nos,int cont);
+void sort_desc(int *nos,int cont);
+double calculateAverage(int *nos,int cont);
+double calcMedian(int *nos,int cont);
+
+int main()
+{
+	int cont=0,value,outlier=0;
+	ifstream dataIn;
+	std::cout << std::setprecision(2) << std::fixed;
+	dataIn.open("scores.txt");
+	if (dataIn.fail())
+	{
+	cout << "Error! File Not Found!";
+	return 1;
+	}
+	else
+	{
+	  
+		while(dataIn>>value)
+		{
+		   if(value>0)
+			{
+		       cont++;
+			}
+		   else if(value<0)
+		    {
+		    	outlier++;
+		    }
+		}
+	      
+		dataIn.close();
+		int* nos = new int[cont];
+		readData(nos,cont);
+		sort_desc(nos,cont);
+		double avg=calculateAverage(nos,cont);   
+		double median=calcMedian(nos,cont);
+		cout<<"There were "<<outlier<<" outlier values."<<endl;
+		cout<<"Sorted Scores :";
+		for(int i=0;i<cont;i++)
+		{
+		   cout<<nos[i];
+		   if(i!=cont-1)
+		   	{
+		       cout<<",";
+		    }
+		}
+		cout<<endl;
+		cout<<"Average Score :"<<avg<<endl;
+		cout<<"Median Score :"<<median<<endl;		  
+	}
+return 0;
+}
+
+void readData(int *nos,int cont)
+{
+	int outlier=0;
+	ifstream dataIn;
+	int val;
+   	dataIn.open("scores.txt");
+	for(int i=0;i<cont;)
+	{
+   		dataIn>>val;
+   		if(val>0)
+   		{
+       		*(nos+i)=val;
+      		i++;
+       	}
+       	else if(val<0)
+       	{
+           outlier++;
+      	}
+  	}
+   dataIn.close();
+}
+void sort_desc(int *nos,int cont)
+{
+   int temp1;
+   for (int i = 0; i < cont; i++)
+	{
+		for (int j = i + 1; j < cont; j++)
+		{
+			if (nos[i] < nos[j])
+			{
+				temp1 = *(nos+i);
+				*(nos+i) =*(nos+j);
+				*(nos+j) = temp1;
+			}
+		}
+	}
+}
+double calculateAverage(int *nos,int cont)
+{
+   double sum=0;
+   for(int i=0;i<cont;i++)
+   {
+       sum+=*(nos+i);
+   }
+   return sum/cont;
+}
+double calcMedian(int *nos,int cont)
+{
+	int mid;
+	float med;
+	mid = (cont / 2.0);
+	if (cont % 2 == 0)
+	med = ((*(nos+(mid-1))) + (*(nos+(mid)))) / 2.0;
+	else
+	med = *(nos+(mid));
+	return med;  
+}
