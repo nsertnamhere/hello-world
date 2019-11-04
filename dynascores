@@ -1,0 +1,127 @@
+#include <fstream>
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+// function declarations
+void readData(int *nos,int cnt);
+void sort(int *nos,int cnt);
+double calculateAverage(int *nos,int cnt);
+double calcMedian(int *nos,int cnt);
+int main()
+{
+int cnt=0,value;
+// defines an input stream for the data file
+ifstream dataIn;
+// setting the precision to two decimal places
+std::cout << std::setprecision(2) << std::fixed;
+
+// Opening the input file
+dataIn.open("scores.txt");
+// checking whether the file name is valid or not
+if (dataIn.fail())
+{
+cout << "** File Not Found **";
+return 1;
+}
+else
+{
+  
+while(dataIn>>value)
+{
+   if(value>0)
+   {
+       cnt++;
+           }
+       }
+      
+// Closing the intput file
+dataIn.close();
+  
+// Creating array dynamically
+int* nos = new int[cnt];
+  
+// calling the functions
+readData(nos,cnt);
+  
+sort(nos,cnt);
+double avg=calculateAverage(nos,cnt);   
+       double median=calcMedian(nos,cnt);
+cout<<"Sorted Scores :";
+for(int i=0;i<cnt;i++)
+{
+   cout<<nos[i];
+   if(i!=cnt-1)
+   {
+       cout<<",";
+           }
+       }
+       cout<<endl;
+       cout<<"Average Score :"<<avg<<endl;
+       cout<<"Median Score :"<<median<<endl;
+  
+  
+}
+
+
+return 0;
+}
+
+/* This function will read the data from
+* the file and populate the values into arrays
+*/
+void readData(int *nos,int cnt)
+{
+   // defines an input stream for the data file
+ifstream dataIn;
+int val;
+   // Opening the input file
+dataIn.open("scores.txt");
+for(int i=0;i<cnt;i++)
+{
+   dataIn>>val;
+   if(val>0)
+   {
+       *(nos+i)=val;
+       }
+   }
+   dataIn.close();
+  
+}
+void sort(int *nos,int cnt)
+{
+   //This Logic will Sort the Array of elements in Decending order
+   int temp1;
+   for (int i = 0; i < cnt; i++)
+{
+for (int j = i + 1; j < cnt; j++)
+{
+if (nos[i] < nos[j])
+{
+temp1 = *(nos+i);
+*(nos+i) =*(nos+j);
+*(nos+j) = temp1;
+}
+}
+}
+}
+double calculateAverage(int *nos,int cnt)
+{
+   double sum=0;
+   for(int i=0;i<cnt;i++)
+   {
+       sum+=*(nos+i);
+   }
+   return sum/cnt;
+}
+double calcMedian(int *nos,int cnt)
+{
+int middle;
+float med;
+middle = (cnt / 2.0);
+if (cnt % 2 == 0)
+med = ((*(nos+(middle-1))) + (*(nos+(middle)))) / 2.0;
+else
+med = *(nos+(middle));
+return med;  
+}
