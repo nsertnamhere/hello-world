@@ -1,0 +1,73 @@
+/* PROGRAM: NAME
+By Nate Townsell 2019
+This program does...
+*/
+
+#include<iostream>
+#include<cmath>
+#include<iomanip>     //stream manipulators like set precision, setw(n)
+#include<string>     //strings
+#include<cstdlib>     // used for the rand(); function
+#include<ctime>      //for the time function time(0). This function returns the number of seconds that have elapsed since Jan 1 1970
+#include<fstream>    //for C++ file access
+#include<cstring>
+using namespace std;
+void documentReport(char input[])
+{
+   int lineCount,wordCount,charCount;
+   lineCount = 0; //this will store the line count.
+   wordCount = 0; //this will store the number of words in the string.
+   charCount = 0; //this will store the number of characters in the string.
+   //strlen(input) returns the length of the string used.
+   for(int i=0; i<strlen(input); i++){ //Going through all the elements in the input string.
+       if(input[i]=='\n'){ // if we encounter a new line character we increment the count of the line by 1.
+           lineCount++;
+       }
+       if(input[i]=='\n'||input[i]=='\t'||input[i]==' '||input[i]=='\v'){ // if the a tab, a whitespace, a newline or a vertical tab appears
+           //we check if the previous character in not an escape sequence.
+           if(input[i-1]!='\n'&&input[i-1]!='\t'&&input[i-1]!=' '&&input[i]!='\v'){   
+               wordCount++;
+           }
+       }
+       charCount++; //we increment the character count by one.
+   }
+   //we print the details.
+   cout<<"Lines: "<<lineCount<<endl;
+   cout<<"Words: "<<wordCount<<endl;
+   cout<<"Characters: "<<charCount<<endl;
+}
+
+string replaceString(string document, const string& oldString, const string& newString )
+{
+    auto pos = document.find( oldString ) ;
+    while( pos != string::npos )
+    {
+        document.replace( pos, oldString.size(), newString ) ;
+        pos = document.find( oldString, pos + newString.size() ) ;
+    }
+    return document;
+}
+
+
+void printString(char* str)
+{
+    int i = 0;
+    while(str[i]!='\0')
+	{
+        cout<<str[i];
+        i++;
+    }
+}
+
+
+int main()
+{
+   	char input[] = "A man\na plan\na canal\nPanama\n\n";
+   	documentReport(input);
+   	char document[] = "We\'re not laughing at you, we\'re laughing with you.";
+	char oldstring[] = "you";
+  	char newstring[] = "them";
+  	printString(document);
+	printString(replaceString(document, oldstring, newstring));
+	return 0;
+}
