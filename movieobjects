@@ -1,0 +1,111 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+class MovieRentalDatabase
+{
+   public:
+       string name;
+       float length;
+       string genre;
+       float rentel_price;
+};
+
+bool sortASC(MovieRentalDatabase x, MovieRentalDatabase y)
+{
+   return x.name<y.name;
+}
+
+bool sortDSC(MovieRentalDatabase x, MovieRentalDatabase y)
+{
+   return x.name>y.name;
+}
+
+int main()
+{
+   vector<MovieRentalDatabase> mv;
+   while(1)
+   {
+       cout<<"Welcome to the movies!"<<endl;
+       int ch;
+       cout<<"Please select one:"<<endl;
+       cout<<"1) Enter all movie data into the array"<<endl;
+       cout<<"2) Display all movie data currently stored in the array"<<endl;
+       cout<<"3) Change the contents of any one array element"<<endl;
+       cout<<"4) Sort the array by movie name in ascending order"<<endl;
+       cout<<"5) Sort the array by movie name in descending order"<<endl;
+       cout<<"6) Quit the program"<<endl;
+       cout<<"Selection: ";
+       cin>>ch;
+       if(ch==1)
+       {
+           int n;
+           cout<<"How many movies do want to enter?";
+           cin>>n;
+           for(int i=0;i<n;i++)
+           {
+               MovieRentalDatabase db;
+               //string str,ptr;
+               cout<<"Please enter the data for movie #"<<(i+1)<<endl;
+               cout<<"Name: ";
+               fflush(stdin);
+               getline(cin,db.name);
+               cout<<"Length(in minutes): ";
+               cin>>db.length;
+               cout<<"Genre: ";
+               fflush(stdin);
+               getline(cin,db.genre);
+               cout<<"Price(in dollars and cents format): ";
+               cin>>db.rentel_price;
+               mv.push_back(db);
+           }
+       }
+       else if(ch==2)
+       {
+           cout<<mv.size()<<endl;
+           for(int i=0;i<mv.size();i++)
+           {
+               cout<<"MOVIE #"<<(i+1)<<endl;
+               cout<<"Name: "<<mv[i].name<<endl;
+               cout<<"Length: "<<mv[i].length<<endl;
+               cout<<"Genre: "<<mv[i].genre<<endl;
+               cout<<"Price: "<<mv[i].rentel_price<<endl;
+           }
+       }
+       else if(ch==3)
+       {
+           cout<<"Enter an element number to replace: ";
+           int x;
+           cin>>x;
+           --x;
+           cout<<"Please enter the data for movie #"<<(x)<<endl;
+           cout<<"Name: ";
+           fflush(stdin);
+           getline(cin,mv[x].name);
+           //cin>>mv[x].name;
+           cout<<"Length(in minutes): ";
+           cin>>mv[x].length;
+           cout<<"Genre: ";
+           fflush(stdin);
+           getline(cin,mv[x].genre);
+           cout<<"Price(in dollars and cents format): ";
+           cin>>mv[x].rentel_price;
+       }
+       else if(ch==4)
+       {
+           sort(mv.begin(),mv.end(),sortASC);
+           cout<<"Ascending sort complete."<<endl;
+       }
+       else if(ch==5)
+       {
+           sort(mv.begin(),mv.end(),sortDSC);
+           cout<<"Decending sort complete."<<endl;
+       }
+       else
+       {
+           cout<<"Exiting..."<<endl;
+           break;
+       }
+   }
+}
